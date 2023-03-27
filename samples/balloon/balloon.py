@@ -27,6 +27,7 @@ Usage: import the module (see Jupyter notebooks for examples), or run from
     python3 balloon.py splash --weights=last --video=<URL or path to file>
 """
 
+import glob
 import os
 import sys
 import json
@@ -91,8 +92,7 @@ class BalloonDataset(utils.Dataset):
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
-        dataset_dir = os.path.join(dataset_dir, subset)
-
+        dataset_dir = os.path.join( ROOT_DIR, dataset_dir, subset)
         # Load annotations
         # VGG Image Annotator (up to version 1.6) saves each image in the form:
         # { 'filename': '28503151_5b5b7ec140_b.jpg',
@@ -134,6 +134,7 @@ class BalloonDataset(utils.Dataset):
             image = skimage.io.imread(image_path)
             height, width = image.shape[:2]
 
+            print(polygons)
             self.add_image(
                 "balloon",
                 image_id=a['filename'],  # use file name as a unique image id
